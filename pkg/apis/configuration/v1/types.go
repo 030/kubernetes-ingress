@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"github.com/nginxinc/kubernetes-ingress/pkg/apis/configuration/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -332,11 +331,11 @@ type Policy struct {
 // The spec includes multiple fields, where each field represents a different policy.
 // Only one policy (field) is allowed.
 type PolicySpec struct {
-	AccessControl *AccessControl        `json:"accessControl"`
-	RateLimit     *v1alpha1.RateLimit   `json:"rateLimit"`
-	JWTAuth       *v1alpha1.JWTAuth     `json:"jwt"`
-	IngressMTLS   *v1alpha1.IngressMTLS `json:"ingressMTLS"`
-	EgressMTLS    *v1alpha1.EgressMTLS  `json:"egressMTLS"`
+	AccessControl *AccessControl `json:"accessControl"`
+	RateLimit     *RateLimit     `json:"rateLimit"`
+	JWTAuth       *JWTAuth       `json:"jwt"`
+	IngressMTLS   *IngressMTLS   `json:"ingressMTLS"`
+	EgressMTLS    *EgressMTLS    `json:"egressMTLS"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -353,4 +352,44 @@ type PolicyList struct {
 type AccessControl struct {
 	Allow []string `json:"allow"`
 	Deny  []string `json:"deny"`
+}
+
+// RateLimit defines a rate limit policy.
+type RateLimit struct {
+	Rate       string `json:"rate"`
+	Key        string `json:"key"`
+	Delay      *int   `json:"delay"`
+	NoDelay    *bool  `json:"noDelay"`
+	Burst      *int   `json:"burst"`
+	ZoneSize   string `json:"zoneSize"`
+	DryRun     *bool  `json:"dryRun"`
+	LogLevel   string `json:"logLevel"`
+	RejectCode *int   `json:"rejectCode"`
+}
+
+// JWTAuth holds JWT authentication configuration.
+type JWTAuth struct {
+	Realm  string `json:"realm"`
+	Secret string `json:"secret"`
+	Token  string `json:"token"`
+}
+
+// IngressMTLS defines an Ingress MTLS policy.
+type IngressMTLS struct {
+	ClientCertSecret string `json:"clientCertSecret"`
+	VerifyClient     string `json:"verifyClient"`
+	VerifyDepth      *int   `json:"verifyDepth"`
+}
+
+// EgressMTLS defines an Egress MTLS policy.
+type EgressMTLS struct {
+	TLSSecret         string `json:"tlsSecret"`
+	VerifyServer      bool   `json:"verifyServer"`
+	VerifyDepth       *int   `json:"verifyDepth"`
+	Protocols         string `json:"protocols"`
+	SessionReuse      *bool  `json:"sessionReuse"`
+	Ciphers           string `json:"ciphers"`
+	TrustedCertSecret string `json:"trustedCertSecret"`
+	ServerName        bool   `json:"serverName"`
+	SSLName           string `json:"sslName"`
 }
