@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"github.com/nginxinc/kubernetes-ingress/pkg/apis/configuration/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -312,4 +313,44 @@ type VirtualServerRouteStatus struct {
 	Message           string             `json:"message"`
 	ReferencedBy      string             `json:"referencedBy"`
 	ExternalEndpoints []ExternalEndpoint `json:"externalEndpoints,omitempty"`
+}
+
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +kubebuilder:validation:Optional
+// +kubebuilder:resource:shortName=pol
+
+// Policy defines a Policy for VirtualServer and VirtualServerRoute resources.
+type Policy struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec PolicySpec `json:"spec"`
+}
+
+// PolicySpec is the spec of the Policy resource.
+// The spec includes multiple fields, where each field represents a different policy.
+// Only one policy (field) is allowed.
+type PolicySpec struct {
+	AccessControl *AccessControl        `json:"accessControl"`
+	RateLimit     *v1alpha1.RateLimit   `json:"rateLimit"`
+	JWTAuth       *v1alpha1.JWTAuth     `json:"jwt"`
+	IngressMTLS   *v1alpha1.IngressMTLS `json:"ingressMTLS"`
+	EgressMTLS    *v1alpha1.EgressMTLS  `json:"egressMTLS"`
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// PolicyList is a list of the Policy resources.
+type PolicyList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata"`
+
+	Items []Policy `json:"items"`
+}
+
+// AccessControl defines an access policy based on the source IP of a request.
+type AccessControl struct {
+	Allow []string `json:"allow"`
+	Deny  []string `json:"deny"`
 }

@@ -102,36 +102,6 @@ type TransportServerList struct {
 	Items []TransportServer `json:"items"`
 }
 
-// +genclient
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +kubebuilder:validation:Optional
-// +kubebuilder:resource:shortName=pol
-
-// Policy defines a Policy for VirtualServer and VirtualServerRoute resources.
-type Policy struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec PolicySpec `json:"spec"`
-}
-
-// PolicySpec is the spec of the Policy resource.
-// The spec includes multiple fields, where each field represents a different policy.
-// Only one policy (field) is allowed.
-type PolicySpec struct {
-	AccessControl *AccessControl `json:"accessControl"`
-	RateLimit     *RateLimit     `json:"rateLimit"`
-	JWTAuth       *JWTAuth       `json:"jwt"`
-	IngressMTLS   *IngressMTLS   `json:"ingressMTLS"`
-	EgressMTLS    *EgressMTLS    `json:"egressMTLS"`
-}
-
-// AccessControl defines an access policy based on the source IP of a request.
-type AccessControl struct {
-	Allow []string `json:"allow"`
-	Deny  []string `json:"deny"`
-}
-
 // RateLimit defines a rate limit policy.
 type RateLimit struct {
 	Rate       string `json:"rate"`
@@ -170,14 +140,4 @@ type EgressMTLS struct {
 	TrustedCertSecret string `json:"trustedCertSecret"`
 	ServerName        bool   `json:"serverName"`
 	SSLName           string `json:"sslName"`
-}
-
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// PolicyList is a list of the Policy resources.
-type PolicyList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata"`
-
-	Items []Policy `json:"items"`
 }
