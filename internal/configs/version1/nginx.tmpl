@@ -134,9 +134,9 @@ http {
 
         location / {
             {{if .RedirectIfDoesNotMatchURL}}
-                return 404;
-            {{else}}
                 return 301 https://{{.RedirectIfDoesNotMatchURL}}/;
+            {{else}}
+                return 404;
             {{end}}
         }
     }
