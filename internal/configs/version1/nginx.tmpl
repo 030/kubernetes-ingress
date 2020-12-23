@@ -133,7 +133,11 @@ http {
         {{end}}
 
         location / {
-           return 404;
+            {{if .RedirectIfDoesNotMatchURL}}
+                return 404;
+            {{else}}
+                return 301 https://{{.RedirectIfDoesNotMatchURL}}/;
+            {{end}}
         }
     }
 
