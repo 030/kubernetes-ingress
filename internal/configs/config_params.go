@@ -61,6 +61,7 @@ type ConfigParams struct {
 	ProxyProtocol                          bool
 	ProxyReadTimeout                       string
 	ProxySendTimeout                       string
+	RedirectIfDoesNotMatchURL              string
 	RedirectToHTTPS                        bool
 	ResolverAddresses                      []string
 	ResolverIPV6                           bool
