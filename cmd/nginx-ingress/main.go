@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"regexp"
@@ -51,6 +52,12 @@ var (
 
 	healthStatusURI = flag.String("health-status-uri", "/nginx-health",
 		`Sets the URI of health status location in the default server. Requires -health-status`)
+
+	redirectIfDoesNotMatch = flag.Bool("redirect-if-does-not-match", false,
+		`Redirect to specified URL if none of the hosts match. Useful for redirecting to an URL if none of the hosts match`)
+
+	redirectIfDoesNotMatchURL = flag.String("redirect-if-does-not-match-url", "",
+		`Sets the URL of the redirect URL if none of the hosts match in the default server. Requires -redirect-if-does-not-match`)
 
 	proxyURL = flag.String("proxy", "",
 		`Use a proxy server to connect to Kubernetes API started by "kubectl proxy" command. For testing purposes only.
@@ -194,6 +201,13 @@ func main() {
 	healthStatusURIValidationError := validateLocation(*healthStatusURI)
 	if healthStatusURIValidationError != nil {
 		glog.Fatalf("Invalid value for health-status-uri: %v", healthStatusURIValidationError)
+	}
+
+	if *redirectIfDoesNotMatch {
+		_, redirectIfDoesNotMatchValidationError := url.ParseRequestURI(*redirectIfDoesNotMatchURL)
+		if redirectIfDoesNotMatchValidationError != nil {
+			glog.Fatalf("Invalid value for redirect-if-does-not-match: %v", redirectIfDoesNotMatchValidationError)
+		}
 	}
 
 	statusLockNameValidationError := validateResourceName(*leaderElectionLockName)
@@ -494,6 +508,8 @@ func main() {
 	staticCfgParams := &configs.StaticConfigParams{
 		HealthStatus:                   *healthStatus,
 		HealthStatusURI:                *healthStatusURI,
+		RedirectIfDoesNotMatch:         *redirectIfDoesNotMatch,
+		RedirectIfDoesNotMatchURL:      *redirectIfDoesNotMatchURL,
 		NginxStatus:                    *nginxStatus,
 		NginxStatusAllowCIDRs:          allowedCIDRs,
 		NginxStatusPort:                *nginxStatusPort,

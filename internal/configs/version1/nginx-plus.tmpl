@@ -143,7 +143,11 @@ http {
         {{end}}
 
         location / {
-           return 404;
+            {{if .RedirectIfDoesNotMatch}}
+                return 301 {{.RedirectIfDoesNotMatchURL}}/;
+            {{else}}
+                return 404;
+            {{end}}
         }
     }
 

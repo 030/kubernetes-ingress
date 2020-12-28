@@ -112,6 +112,8 @@ spec:
 {{- if .Values.controller.watchNamespace }}
           - -watch-namespace={{ .Values.controller.watchNamespace }}
 {{- end }}
+          - -redirect-if-does-not-match={{ .Values.controller.redirectIfDoesNotMatch }}
+          - -redirect-if-does-not-match-url={{ .Values.controller.redirectIfDoesNotMatchURL }}
           - -health-status={{ .Values.controller.healthStatus }}
           - -health-status-uri={{ .Values.controller.healthStatusURI }}
           - -nginx-debug={{ .Values.controller.nginxDebug }}

@@ -226,6 +226,8 @@ Parameter | Description | Default
 `controller.enableSnippets` | Enable custom NGINX configuration snippets in VirtualServer and VirtualServerRoute resources. | false
 `controller.healthStatus` | Add a location "/nginx-health" to the default server. The location responds with the 200 status code for any request. Useful for external health-checking of the Ingress controller. | false
 `controller.healthStatusURI` | Sets the URI of health status location in the default server. Requires `controller.healthStatus`. | "/nginx-health"
+`controller.redirectIfDoesNotMatch` | Set the Redirect URL if none of the hosts match. | false
+`controller.redirectIfDoesNotMatchURL` | Set the Redirect URL if none of the hosts match. | false
 `controller.nginxStatus.enable` | Enable the NGINX stub_status, or the NGINX Plus API. | true
 `controller.nginxStatus.port` | Set the port where the NGINX stub_status or the NGINX Plus API is exposed. | 8080
 `controller.nginxStatus.allowCidrs` | Whitelist IPv4 IP/CIDR blocks to allow access to NGINX stub_status or the NGINX Plus API. Separate multiple IP/CIDR by commas. | 127.0.0.1

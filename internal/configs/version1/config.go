@@ -147,6 +147,8 @@ type MainConfig struct {
 	ErrorLogLevel                      string
 	HealthStatus                       bool
 	HealthStatusURI                    string
+	RedirectIfDoesNotMatch             bool
+	RedirectIfDoesNotMatchURL          string
 	HTTP2                              bool
 	HTTPSnippets                       []string
 	KeepaliveRequests                  int64
