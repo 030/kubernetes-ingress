@@ -500,6 +500,8 @@ func GenerateNginxMainConfig(staticCfgParams *StaticConfigParams, config *Config
 		ErrorLogLevel:                      config.MainErrorLogLevel,
 		HealthStatus:                       staticCfgParams.HealthStatus,
 		HealthStatusURI:                    staticCfgParams.HealthStatusURI,
+		RedirectIfDoesNotMatch:             staticCfgParams.RedirectIfDoesNotMatch,
+		RedirectIfDoesNotMatchURL:          staticCfgParams.RedirectIfDoesNotMatchURL,
 		HTTP2:                              config.HTTP2,
 		HTTPSnippets:                       config.MainHTTPSnippets,
 		KeepaliveRequests:                  config.MainKeepaliveRequests,

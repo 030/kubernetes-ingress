@@ -157,10 +157,6 @@ func parseAnnotations(ingEx *IngressEx, baseCfgParams *ConfigParams, isPlus bool
 		}
 	}
 
-	if redirectIfDoesNotMatchURL, exists := ingEx.Ingress.Annotations["nginx.org/redirect-if-does-not-match-url"]; exists {
-		cfgParams.RedirectIfDoesNotMatchURL = redirectIfDoesNotMatchURL
-	}
-
 	if proxyConnectTimeout, exists := ingEx.Ingress.Annotations["nginx.org/proxy-connect-timeout"]; exists {
 		cfgParams.ProxyConnectTimeout = proxyConnectTimeout
 	}

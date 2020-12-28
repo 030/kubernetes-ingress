@@ -61,7 +61,6 @@ type ConfigParams struct {
 	ProxyProtocol                          bool
 	ProxyReadTimeout                       string
 	ProxySendTimeout                       string
-	RedirectIfDoesNotMatchURL              string
 	RedirectToHTTPS                        bool
 	ResolverAddresses                      []string
 	ResolverIPV6                           bool
@@ -104,6 +103,8 @@ type ConfigParams struct {
 type StaticConfigParams struct {
 	HealthStatus                   bool
 	HealthStatusURI                string
+	RedirectIfDoesNotMatch         bool
+	RedirectIfDoesNotMatchURL      string
 	NginxStatus                    bool
 	NginxStatusAllowCIDRs          []string
 	NginxStatusPort                int

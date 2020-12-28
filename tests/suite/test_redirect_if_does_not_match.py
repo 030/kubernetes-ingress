@@ -7,19 +7,12 @@ from suite.resources_utils import ensure_connection
 @pytest.mark.ingresses
 @pytest.mark.parametrize('ingress_controller, expected_responses',
                          [
-                             pytest.param({"extra_args": ["-health-status=true",
-                                                          "-health-status-uri=/something-va(l)id/blabla"]},
+                             pytest.param({"extra_args": ["-redirect-if-does-not-match=/something-va(l)id/blabla"]},
                                           {"/something-va(l)id/blabla": 200, "/nginx-health": 404},
-                                          id="custom-health-status-uri"),
-                             pytest.param({"extra_args": ["-health-status=true"]},
-                                          {"/something-va(l)id/blabla": 404, "/nginx-health": 200},
-                                          id="default-health-status-uri"),
-                             pytest.param({"extra_args": ["-health-status=false"]},
-                                          {"/something-va(l)id/blabla": 404, "/nginx-health": 404},
-                                          id="disable-health-status")
+                                          id="custom-redirect-if-does-not-match")
                          ],
                          indirect=["ingress_controller"])
-class TestHealthStatusURI:
+class TestRedirectIfDoesNotMAtch:
     def test_response_code(self, ingress_controller_endpoint, ingress_controller, expected_responses):
         for uri in expected_responses:
             req_url = f"http://{ingress_controller_endpoint.public_ip}:{ingress_controller_endpoint.port}{uri}"

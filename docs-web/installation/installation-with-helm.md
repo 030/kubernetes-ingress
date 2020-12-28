@@ -256,6 +256,12 @@ The following tables lists the configurable parameters of the NGINX Ingress cont
    * - ``controller.healthStatusURI``
      - Sets the URI of health status location in the default server. Requires ``controller.healthStatus``.
      - "/nginx-health"
+   * - ``controller.redirectIfDoesNotMatch``
+     - Sets the URL of the redirect location if none of the hosts match. Useful if one wants to enable a default redirect instead of a 404.
+     - false
+   * - ``controller.redirectIfDoesNotMatchURL``
+     - Sets the URL of the redirect location if none of the hosts match. Useful if one wants to enable a default redirect instead of a 404.
+     - ""
    * - ``controller.nginxStatus.enable``
      - Enable the NGINX stub_status, or the NGINX Plus API.
      - true
